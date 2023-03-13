@@ -10800,7 +10800,7 @@ let API_URL = 'http://43.156.249.233:5600/mjhelper.php'
                                 headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded'
                                 },
-                                data: 'killprocess',
+                                data: 'kill_process',
                                 onload: function (msg) {
                                     console.log(msg.responseText);
                                 }
