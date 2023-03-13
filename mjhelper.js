@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         mahjong-helper-majsoul
 // @namespace    https://github.com/Avenshy
-// @version      20230227
+// @version      20230314
 // @description  majsoul for mahjong-helper
 // @author       Avenshy
 // @iconURL      https://www.maj-soul.com/homepage/character/1/yiji_0.png
@@ -10814,7 +10814,7 @@ let API_URL = 'http://43.156.249.233:5600/mjhelper.php'
             iframe.style.top = (screenHeight * 0.45 - (screenWidth * 0.35 * 0.5)) + "px";
             iframe.style.left = (screenWidth * 0.5 - (screenHeight * 0.75 * 0.5)) + "px";
         }else {
-            iframe.style.width = (screenHeight * 0.45) + "px";
+            iframe.style.width = (screenHeight * 0.35) + "px";
             iframe.style.height = (screenWidth * 0.72) + "px";
             iframe.style.top = (screenHeight * 0.5 - (screenWidth * 0.72 * 0.5)) + "px";
             iframe.style.left = (screenWidth * 0.56 - (screenHeight * 0.45 * 0.5)) + "px";
