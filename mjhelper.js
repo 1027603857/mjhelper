@@ -10806,19 +10806,28 @@ let API_URL = 'http://43.156.249.233:5600/mjhelper.php'
                                 }
                             });
         var iframe = document.createElement('iframe');
+        var screenHeight, screenWidth;
+        if (window.matchMedia("(orientation: landscape)").matches) {
+            screenHeight = window.innerHeight;
+            screenWidth = window.innerWidth;
+        }else {
+            iframe.style.transform = "rotate(90deg)";
+            screenHeight = window.innerWidth;
+            screenWidth = window.innerHeight;
+        }
 
         iframe.setAttribute('crossorigin', 'anonymous');
 
         iframe.style.position = "fixed";
-        iframe.style.top = "50%";
-        iframe.style.left = "50%";
-        iframe.style.transform = "translate(-50%, -60%)";
-        iframe.style.width = "35%";
-        iframe.style.height = "75%";
+        iframe.style.top = (screenHeight * 0.5 - (screenWidth * 0.35 * 0.5)) + "px";
+        iframe.style.left = (screenWidth * 0.5 - (screenHeight * 0.75 * 0.5)) + "px";
+        iframe.style.width = (screenWidth * 0.35) + "px";
+        iframe.style.height = (screenHeight * 0.75) + "px";
         iframe.style.border = "none";
         iframe.style.pointerEvents = "none";
 
         document.body.appendChild(iframe);
+
         setInterval(() => {
             GM_xmlhttpRequest({
                 method: 'GET',
