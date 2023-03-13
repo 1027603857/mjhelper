@@ -10817,8 +10817,8 @@ let API_URL = 'http://43.156.249.233:5600/mjhelper.php'
             iframe.style.transform = "rotate(90deg)";
             iframe.style.width = (screenHeight * 0.45) + "px";
             iframe.style.height = (screenWidth * 0.65) + "px";
-            iframe.style.top = (screenHeight * 0.5 - (screenHeight * 0.45 * 0.5)) + "px";
-            iframe.style.left = (screenWidth * 0.55 - (screenWidth * 0.65 * 0.5)) + "px";
+            iframe.style.top = (screenWidth * 0.5 - (screenHeight * 0.45 * 0.5)) + "px";
+            iframe.style.left = (screenHeight * 0.55 - (screenWidth * 0.65 * 0.5)) + "px";
         }
 
         iframe.setAttribute('crossorigin', 'anonymous');
