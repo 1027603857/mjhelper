@@ -10817,7 +10817,7 @@ let API_URL = 'http://43.156.249.233:5600/mjhelper.php'
             iframe.style.width = (screenHeight * 0.35) + "px";
             iframe.style.height = (screenWidth * 0.72) + "px";
             iframe.style.top = (screenHeight * 0.5 - (screenWidth * 0.72 * 0.5)) + "px";
-            iframe.style.left = (screenWidth * 0.56 - (screenHeight * 0.45 * 0.5)) + "px";
+            iframe.style.left = (screenWidth * 0.7 - (screenHeight * 0.45 * 0.5)) + "px";
             iframe.style.transformOrigin = "50% 50%"; // 将旋转中心设置为距离元素左侧和顶部各 50 像素的位置
             iframe.style.transform = "rotate(90deg)"; // 以指定的位置为中心顺时针旋转 90 度
         }
