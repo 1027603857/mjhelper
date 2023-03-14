@@ -10802,7 +10802,7 @@ let API_URL = 'http://43.156.249.233:5600/mjhelper.php'
                                 },
                                 data: 'kill_process',
                                 onload: function (msg) {
-                                    console.log(msg.responseText);
+                                    console.log("发送重启消息成功");
                                 }
                             });
         var iframe = document.createElement('iframe');
@@ -10833,18 +10833,19 @@ let API_URL = 'http://43.156.249.233:5600/mjhelper.php'
 
         document.body.appendChild(iframe);
 
-        setInterval(() => {
-            GM_xmlhttpRequest({
-                method: 'GET',
-                url: API_URL,
-                onload: function (response) {
-                    iframe.contentWindow.document.open();
-                    iframe.contentWindow.document.write(response.responseText);
-                    iframe.contentWindow.document.close();
-                    iframe.contentWindow.document.body.style.fontSize = fontSize;
-                }
-            });
-        }, 800);
+        // 重写原始的 GM_xmlhttpRequest 函数，提交数据后自动更新iframe
+        const originalGMxmlHttpRequest = GM_xmlhttpRequest;
+        GM_xmlhttpRequest = function (details) {
+          const originalOnload = details.onload;
+          details.onload = function (response) {
+            iframe.contentWindow.document.open();
+            iframe.contentWindow.document.write(response.responseText);
+            iframe.contentWindow.document.close();
+            iframe.contentWindow.document.body.style.fontSize = fontSize;
+            originalOnload(response);
+          };
+          originalGMxmlHttpRequest(details);
+        };
     } catch (error) {
         console.log('[mahjong-helper-majsoul] 等待游戏启动');
         setTimeout(mahjong_helper_majsoul, 1000);
