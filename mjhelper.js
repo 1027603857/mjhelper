@@ -10808,12 +10808,15 @@ let API_URL = 'http://43.156.249.233:5600/mjhelper.php'
         var iframe = document.createElement('iframe');
         var screenHeight = window.innerHeight;
         var screenWidth = window.innerWidth;
+        var fontSize
         if (window.matchMedia("(orientation: landscape)").matches) {
+            fontSize = "16px";
             iframe.style.width = (screenWidth * 0.35) + "px";
             iframe.style.height = (screenHeight * 0.75) + "px";
             iframe.style.top = (screenHeight * 0.45 - (screenWidth * 0.35 * 0.5)) + "px";
             iframe.style.left = (screenWidth * 0.5 - (screenHeight * 0.75 * 0.5)) + "px";
         }else {
+            fontSize = "6px";
             iframe.style.width = (screenHeight * 0.35) + "px";
             iframe.style.height = (screenWidth * 0.72) + "px";
             iframe.style.top = (screenHeight * 0.5 - (screenWidth * 0.72 * 0.5)) + "px";
@@ -10838,6 +10841,7 @@ let API_URL = 'http://43.156.249.233:5600/mjhelper.php'
                     iframe.contentWindow.document.open();
                     iframe.contentWindow.document.write(response.responseText);
                     iframe.contentWindow.document.close();
+                    iframe.contentWindow.document.body.style.fontSize = fontSize;
                 }
             });
         }, 800);
