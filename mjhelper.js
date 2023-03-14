@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         mahjong-helper-majsoul
 // @namespace    https://github.com/Avenshy
-// @version      20230315
+// @version      20230314
 // @description  majsoul for mahjong-helper
 // @author       Avenshy
 // @iconURL      https://www.maj-soul.com/homepage/character/1/yiji_0.png
@@ -10816,11 +10816,11 @@ let API_URL = 'http://43.156.249.233:5600/mjhelper.php'
             iframe.style.top = (screenHeight * 0.45 - (screenWidth * 0.35 * 0.5)) + "px";
             iframe.style.left = (screenWidth * 0.5 - (screenHeight * 0.75 * 0.5)) + "px";
         }else {
-            fontSize = "6px";
-            iframe.style.width = (screenHeight * 0.35) + "px";
-            iframe.style.height = (screenWidth * 0.72) + "px";
-            iframe.style.top = (screenHeight * 0.5 - (screenWidth * 0.72 * 0.5)) + "px";
-            iframe.style.left = (screenWidth * 0.66 - (screenHeight * 0.45 * 0.5)) + "px";
+            fontSize = "8px";
+            iframe.style.width = (screenHeight * 0.4) + "px";
+            iframe.style.height = (screenWidth * 0.75) + "px";
+            iframe.style.top = (screenHeight * 0.5 - (screenWidth * 0.75 * 0.5)) + "px";
+            iframe.style.left = (screenWidth * 0.6 - (screenHeight * 0.4 * 0.5)) + "px";
             iframe.style.transformOrigin = "50% 50%"; // 将旋转中心设置为距离元素左侧和顶部各 50 像素的位置
             iframe.style.transform = "rotate(90deg)"; // 以指定的位置为中心顺时针旋转 90 度
         }
@@ -10838,11 +10838,25 @@ let API_URL = 'http://43.156.249.233:5600/mjhelper.php'
         GM_xmlhttpRequest = function (details) {
           const originalOnload = details.onload;
           details.onload = function (response) {
-            iframe.contentWindow.document.open();
-            iframe.contentWindow.document.write(response.responseText);
-            iframe.contentWindow.document.close();
-            iframe.contentWindow.document.body.style.fontSize = fontSize;
-            originalOnload(response);
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(response.responseText, 'text/html');
+            var newRollContainerElement = doc.querySelector('.rollcontainer');
+            if (newRollContainerElement !== null) {
+              var newRollContainerInnerHTML = newRollContainerElement.innerHTML;
+            }else newRollContainerInnerHTML = null;
+            //console.log(newRollContainerInnerHTML);
+            var currentRollContainerElement = iframe.contentDocument.querySelector('.rollcontainer');
+            if (currentRollContainerElement !== null) {
+              var currentRollContainerInnerHTML = currentRollContainerElement.innerHTML;
+            }else currentRollContainerInnerHTML = null;
+            //console.log(currentRollContainerInnerHTML);
+            if (newRollContainerInnerHTML !== currentRollContainerInnerHTML) {
+              iframe.contentWindow.document.open();
+              iframe.contentWindow.document.write(response.responseText);
+              iframe.contentWindow.document.close();
+              iframe.contentWindow.document.body.style.fontSize = fontSize;
+              originalOnload(response);
+            }
           };
           originalGMxmlHttpRequest(details);
         };
