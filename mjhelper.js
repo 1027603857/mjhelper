@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         mahjong-helper-majsoul
 // @namespace    https://github.com/Avenshy
-// @version      20230314
+// @version      20230315
 // @description  majsoul for mahjong-helper
 // @author       Avenshy
 // @iconURL      https://www.maj-soul.com/homepage/character/1/yiji_0.png
@@ -10817,10 +10817,10 @@ let API_URL = 'http://43.156.249.233:5600/mjhelper.php'
             iframe.style.left = (screenWidth * 0.5 - (screenHeight * 0.75 * 0.5)) + "px";
         }else {
             fontSize = "8px";
-            iframe.style.width = (screenHeight * 0.4) + "px";
+            iframe.style.width = (screenHeight * 0.45) + "px";
             iframe.style.height = (screenWidth * 0.75) + "px";
             iframe.style.top = (screenHeight * 0.5 - (screenWidth * 0.75 * 0.5)) + "px";
-            iframe.style.left = (screenWidth * 0.6 - (screenHeight * 0.4 * 0.5)) + "px";
+            iframe.style.left = (screenWidth * 0.55 - (screenHeight * 0.45 * 0.5)) + "px";
             iframe.style.transformOrigin = "50% 50%"; // 将旋转中心设置为距离元素左侧和顶部各 50 像素的位置
             iframe.style.transform = "rotate(90deg)"; // 以指定的位置为中心顺时针旋转 90 度
         }
