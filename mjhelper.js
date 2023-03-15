@@ -10813,8 +10813,8 @@ let API_URL = 'http://43.156.249.233:5600/mjhelper.php'
             fontSize = "16px";
             iframe.style.width = (screenWidth * 0.45) + "px";
             iframe.style.height = (screenHeight * 0.75) + "px";
-            iframe.style.top = (screenHeight * 0.45 - (screenWidth * 0.45 * 0.5)) + "px";
-            iframe.style.left = (screenWidth * 0.5 - (screenHeight * 0.75 * 0.5)) + "px";
+            iframe.style.top = (screenHeight * 0.5 - (screenHeight * 0.75 * 0.5)) + "px";
+            iframe.style.left = (screenWidth * 0.5 - (screenWidth * 0.45 * 0.5)) + "px";
         }else {
             fontSize = "8px";
             iframe.style.width = (screenHeight * 0.45) + "px";
