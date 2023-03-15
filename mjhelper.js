@@ -10811,9 +10811,9 @@ let API_URL = 'http://43.156.249.233:5600/mjhelper.php'
         var fontSize
         if (window.matchMedia("(orientation: landscape)").matches) {
             fontSize = "16px";
-            iframe.style.width = (screenWidth * 0.35) + "px";
+            iframe.style.width = (screenWidth * 0.45) + "px";
             iframe.style.height = (screenHeight * 0.75) + "px";
-            iframe.style.top = (screenHeight * 0.45 - (screenWidth * 0.35 * 0.5)) + "px";
+            iframe.style.top = (screenHeight * 0.45 - (screenWidth * 0.45 * 0.5)) + "px";
             iframe.style.left = (screenWidth * 0.5 - (screenHeight * 0.75 * 0.5)) + "px";
         }else {
             fontSize = "8px";
