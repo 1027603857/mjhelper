@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         mahjong-helper-majsoul
 // @namespace    https://github.com/Avenshy
-// @version      20230317
+// @version      20230318
 // @description  majsoul for mahjong-helper
 // @author       Avenshy
 // @iconURL      https://www.maj-soul.com/homepage/character/1/yiji_0.png
@@ -10806,21 +10806,24 @@ let API_URL = 'http://43.156.249.233:5600/mjhelper.php'
                                 }
                             });
         var iframe = document.createElement('iframe');
+        var layaCanvas = document.getElementById("layaCanvas");
+        var canvasWidth = layaCanvas.offsetWidth;
+        var canvasHeight = layaCanvas.offsetHeight;
         var screenHeight = window.innerHeight;
         var screenWidth = window.innerWidth;
         var fontSize
         if (window.matchMedia("(orientation: landscape)").matches) {
-            fontSize = screenHeight * 0.018 + "px";
-            iframe.style.width = (screenWidth * 0.45) + "px";
-            iframe.style.height = (screenHeight * 0.70) + "px";
-            iframe.style.top = (screenHeight * 0.45 - (screenHeight * 0.70 * 0.5)) + "px";
-            iframe.style.left = (screenWidth * 0.5 - (screenWidth * 0.45 * 0.5)) + "px";
+            fontSize = canvasHeight * 0.0171 + "px";
+            iframe.style.width = (canvasWidth * 0.5) + "px";
+            iframe.style.height = (canvasHeight * 0.70) + "px";
+            iframe.style.top = (screenHeight * 0.45 - (canvasHeight * 0.70 * 0.5)) + "px";
+            iframe.style.left = (screenWidth * 0.5 - (canvasWidth * 0.5 * 0.5)) + "px";
         }else {
-            fontSize = screenWidth * 0.018 + "px";
-            iframe.style.width = (screenHeight * 0.45) + "px";
-            iframe.style.height = (screenWidth * 0.75) + "px";
-            iframe.style.top = (screenHeight * 0.5 - (screenWidth * 0.75 * 0.5)) + "px";
-            iframe.style.left = (screenWidth * 0.55 - (screenHeight * 0.45 * 0.5)) + "px";
+            fontSize = canvasWidth * 0.0205 + "px";
+            iframe.style.width = (canvasHeight * 0.5) + "px";
+            iframe.style.height = (canvasWidth * 0.75) + "px";
+            iframe.style.top = (screenHeight * 0.5 - (canvasWidth * 0.75 * 0.5)) + "px";
+            iframe.style.left = (screenWidth * 0.55 - (canvasHeight * 0.5 * 0.5)) + "px";
             iframe.style.transformOrigin = "50% 50%"; // 将旋转中心设置为距离元素左侧和顶部各 50 像素的位置
             iframe.style.transform = "rotate(90deg)"; // 以指定的位置为中心顺时针旋转 90 度
         }
