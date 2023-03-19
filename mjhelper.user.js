@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         mahjong-helper-majsoul
 // @namespace    https://github.com/Avenshy
-// @version      20230318-2
+// @version      20230319
 // @description  majsoul for mahjong-helper
 // @author       Avenshy
 // @iconURL      https://www.maj-soul.com/homepage/character/1/yiji_0.png
@@ -10817,14 +10817,14 @@ let API_URL = 'http://43.156.249.233:5600/mjhelper.php'
             fontSize = canvasHeight * 0.0171 + "px";
             iframe.style.width = (canvasWidth * 0.5) + "px";
             iframe.style.height = (canvasHeight * 0.70) + "px";
-            iframe.style.top = (screenHeight * 0.45 - (canvasHeight * 0.70 * 0.5)) + "px";
+            iframe.style.top = ((screenHeight - canvasHeight) * 0.5 + canvasHeight * 0.45 - (canvasHeight * 0.70 * 0.5)) + "px";
             iframe.style.left = (screenWidth * 0.5 - (canvasWidth * 0.5 * 0.5)) + "px";
         }else {
             fontSize = canvasWidth * 0.0205 + "px";
             iframe.style.width = (canvasHeight * 0.5) + "px";
             iframe.style.height = (canvasWidth * 0.70) + "px";
             iframe.style.top = (screenHeight * 0.5 - (canvasWidth * 0.70 * 0.5)) + "px";
-            iframe.style.left = (screenWidth * 0.55 - (canvasHeight * 0.5 * 0.5)) + "px";
+            iframe.style.left = ((screenWidth - canvasWidth) * 0.5 + canvasWidth * 0.55 - (canvasHeight * 0.5 * 0.5)) + "px";
             iframe.style.transformOrigin = "50% 50%"; // 将旋转中心设置为距离元素左侧和顶部各 50 像素的位置
             iframe.style.transform = "rotate(90deg)"; // 以指定的位置为中心顺时针旋转 90 度
         }
@@ -10837,33 +10837,63 @@ let API_URL = 'http://43.156.249.233:5600/mjhelper.php'
 
         document.body.appendChild(iframe);
 
-        // 重写原始的 GM_xmlhttpRequest 函数，提交数据后自动更新iframe
-        const originalGMxmlHttpRequest = GM_xmlhttpRequest;
+        // 重写 GM_xmlhttpRequest 函数
+        var requests = []; // 请求队列
+        var originalGMXHR = GM_xmlhttpRequest;
+
+        // 重写 GM_xmlhttpRequest
         GM_xmlhttpRequest = function (details) {
-          const originalOnload = details.onload;
-          details.onload = function (response) {
-            var parser = new DOMParser();
-            var doc = parser.parseFromString(response.responseText, 'text/html');
-            var newRollContainerElement = doc.querySelector('.rollcontainer');
-            if (newRollContainerElement !== null) {
-              var newRollContainerInnerHTML = newRollContainerElement.innerHTML;
-            }else newRollContainerInnerHTML = null;
-            //console.log(newRollContainerInnerHTML);
-            var currentRollContainerElement = iframe.contentDocument.querySelector('.rollcontainer');
-            if (currentRollContainerElement !== null) {
-              var currentRollContainerInnerHTML = currentRollContainerElement.innerHTML;
-            }else currentRollContainerInnerHTML = null;
-            //console.log(currentRollContainerInnerHTML);
-            if (newRollContainerInnerHTML !== currentRollContainerInnerHTML) {
-              iframe.contentWindow.document.open();
-              iframe.contentWindow.document.write(response.responseText);
-              iframe.contentWindow.document.close();
-              iframe.contentWindow.document.body.style.fontSize = fontSize;
-              originalOnload(response);
+            //重写请求onload
+            var originalOnload = details.onload;
+            details.onload = function (response) {
+                // 请求完成后从队列中移除该请求
+                requests.shift();
+
+                // 如果队列中还有请求，则发送下一个请求
+                if (requests.length > 0) {
+                    sendRequest();
+                }
+
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(response.responseText, 'text/html');
+                var newRollContainerElement = doc.querySelector('.rollcontainer');
+                if (newRollContainerElement !== null) {
+                    var newRollContainerInnerHTML = newRollContainerElement.innerHTML;
+                } else
+                    newRollContainerInnerHTML = null;
+                //console.log(newRollContainerInnerHTML);
+                var currentRollContainerElement = iframe.contentDocument.querySelector('.rollcontainer');
+                if (currentRollContainerElement !== null) {
+                    var currentRollContainerInnerHTML = currentRollContainerElement.innerHTML;
+                } else
+                    currentRollContainerInnerHTML = null;
+                //console.log(currentRollContainerInnerHTML);
+                if (newRollContainerInnerHTML !== currentRollContainerInnerHTML) {
+                    iframe.contentWindow.document.open();
+                    iframe.contentWindow.document.write(response.responseText);
+                    iframe.contentWindow.document.body.style.fontSize = fontSize;
+                    iframe.contentWindow.document.close();
+                }
+                // 调用原始的 onload 函数
+                if (originalOnload) {
+                    originalOnload(response);
+                }
             }
-          };
-          originalGMxmlHttpRequest(details);
-        };
+
+            // 将请求加入队列
+            requests.push(details);
+
+            // 如果当前没有请求正在发送，发送队列中的第一个请求
+            if (requests.length === 1) {
+                sendRequest();
+            }
+
+            function sendRequest() {
+                originalGMXHR({
+                    ...requests[0], // 发送队列中的第一个请求
+                });
+            }
+        }
     } catch (error) {
         console.log('[mahjong-helper-majsoul] 等待游戏启动');
         setTimeout(mahjong_helper_majsoul, 1000);
